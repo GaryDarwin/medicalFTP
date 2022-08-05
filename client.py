@@ -8,8 +8,10 @@ def ftp_connect():
     #ftp = ftplib.FTP("127.0.0.1:21")
     ftp = ftplib.FTP(ftp_inp)
 
+    userN = input("Enter username:\n")
+    passwd = input("Enter password:\n")
     #login to FTP server
-    ftp.login(user='user', passwd='12345')
+    ftp.login(user=userN, passwd=passwd)
     return ftp
 
 def ftp_download(ftp):
