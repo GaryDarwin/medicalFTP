@@ -1,5 +1,7 @@
 #importing required libraries
+from dataclasses import dataclass
 import ftplib
+
 
 #functon for FTP connection
 def ftp_connect():
@@ -14,12 +16,24 @@ def ftp_connect():
     ftp.login(user=userN, passwd=passwd)
     return ftp
 
-def ftp_download(ftp):
+def ftp_browse(ftp):
     #print(ftp.getwelcome())
     #print(ftp.pwd())
-    ftp.dir()
-    handle = open("medicaldata.csv", 'wb')
-    ftp.retrbinary('RETR %s' % "medicaldata.csv", handle.write)
+    startRange = input("Enter starting date (DD/MM/YYYY):")
+    startTime = input("Enter starting time (HH:MM):")
+    endRange = input("Enter ending date (DD/MM/YYYY):")
+    endTime = input("Enter starting time (HH:MM):")
+    #ADD DATA VALIDATION
+    data=[]
+    range=False
+    ftp.dir(data.append)
+    for line in data:
+        print(line.split("DATA_")[1].split(".")[0])
+        if range==True:
+            ftp_download(line.split(" ")[-1])
+def ftp_download(file):
+    handle = open(file, 'wb')
+    ftp.retrbinary('RETR %s' % file, handle.write)
     ftp.cwd("/")
 
     
@@ -28,5 +42,5 @@ def ftp_quit(ftp):
     ftp.quit()
 
 ftp = ftp_connect()
-ftp_download(ftp)
+ftp_browse(ftp)
 ftp_quit(ftp)
