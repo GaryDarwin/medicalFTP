@@ -9,8 +9,8 @@ handler = FTPHandler
 authorizer = DummyAuthorizer()
 handler.authorizer = authorizer
 
-authorizer.add_user('user', '12345', '.', perm='elradfmwMT')
-authorizer.add_anonymous(os.getcwd())
+authorizer.add_user('user', '12345', './files', perm='elradfmwMT')
+authorizer.add_anonymous('./files')
 
 handler.banner = "Welcome to the server"
 
