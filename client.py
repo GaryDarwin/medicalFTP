@@ -1,7 +1,7 @@
 #importing required libraries
 from dataclasses import dataclass
 import ftplib
-
+from datetime import datetime
 
 #functon for FTP connection
 def ftp_connect():
@@ -19,16 +19,19 @@ def ftp_connect():
 def ftp_browse(ftp):
     #print(ftp.getwelcome())
     #print(ftp.pwd())
-    startRange = input("Enter starting date (DD/MM/YYYY):")
-    startTime = input("Enter starting time (HH:MM):")
-    endRange = input("Enter ending date (DD/MM/YYYY):")
-    endTime = input("Enter starting time (HH:MM):")
+    startRange = input("Enter starting date (DD/MM/YYYY): ")
+    startTime = input("Enter starting time (HH:MM): ")
+    endRange = input("Enter ending date (DD/MM/YYYY): ")
+    endTime = input("Enter starting time (HH:MM): ")
     #ADD DATA VALIDATION
+
     data=[]
     range=False
     ftp.dir(data.append)
     for line in data:
-        print(line.split("DATA_")[1].split(".")[0])
+        temp= line.split("DATA_")[1].split(".")[0]
+        temp = datetime.strptime(temp,"%Y%m%d%H%M%S")
+        print(temp)
         if range==True:
             ftp_download(line.split(" ")[-1])
 def ftp_download(file):
