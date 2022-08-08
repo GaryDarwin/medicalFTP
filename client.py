@@ -33,8 +33,6 @@ def ftp_browse(ftp):
     print (selected_end_point)
 
 
-
-
     #ADD DATA VALIDATION
     data=[]
     range=False
