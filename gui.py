@@ -30,7 +30,7 @@ e1 = tkinter.Entry(tk)
 e1.place(relx=0.6,rely=0.05,anchor=tkinter.CENTER)
 
 tkinter.Label(tk, text="Password").place(relx=0.4,rely=0.1,anchor=tkinter.CENTER)
-e2 = tkinter.Entry(tk)
+e2 = tkinter.Entry(tk, show="*")
 e2.place(relx=0.6,rely=0.1,anchor=tkinter.CENTER)
 
 tkinter.Frame(tk,bg="lightgrey",width=550,height=270).place(relx=0.5,rely=0.42,anchor=tkinter.CENTER)
