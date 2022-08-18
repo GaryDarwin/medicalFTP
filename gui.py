@@ -55,14 +55,18 @@ et2 = tkinter.Entry(tk,width=3)
 et2.place(relx=0.8,rely=0.65,anchor=tkinter.CENTER)
 #functon for FTP connection
 def ftp_connect(userN,passwd):
-    #user input for server IP address
-    #ftp_inp = input("Enter the IP address of the FTP Server: \n")
-    ftp_inp = "127.0.0.1"
-    ftp = ftplib.FTP(ftp_inp)
+    try:
+        #user input for server IP address
+        #ftp_inp = input("Enter the IP address of the FTP Server: \n")
+        ftp_inp = "127.0.0.1"
+        ftp = ftplib.FTP(ftp_inp)
 
-    #login to FTP server
-    ftp.login(user=userN, passwd=passwd)
-    return ftp
+        #login to FTP server
+        ftp.login(user=userN, passwd=passwd)
+        return ftp
+    except:
+        tkinter.messagebox.showwarning(title="Incorrect Login", message="You have input incorrect login detaiils. Please try again with the correct credentials...")
+    
 def ftp_browse(ftp,selected_start_point,selected_end_point):
     #print(ftp.getwelcome())
     #print(ftp.pwd())
