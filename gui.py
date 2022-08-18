@@ -48,10 +48,10 @@ tkinter.Label(tk, text="End Date",bg="lightgrey").place(relx=0.7,rely=0.18,ancho
 cal2 = tkcalendar.Calendar(master=tk)
 cal2.place(relx=0.7,rely=0.4,anchor=tkinter.CENTER)
 tkinter.Label(tk, text="End Time",bg="lightgrey").place(relx=0.6,rely=0.65,anchor=tkinter.CENTER)
-et1 = tkinter.Entry(tk,width=3)
+et1 = ttk.Combobox(tk, values=[str(i).zfill(2) for i in list(range(24))],width=2)
 et1.place(relx=0.7,rely=0.65,anchor=tkinter.CENTER)
 tkinter.Label(tk, text=":",bg="lightgrey").place(relx=0.75,rely=0.65,anchor=tkinter.CENTER)
-et2 = tkinter.Entry(tk,width=3)
+et2 = ttk.Combobox(tk, values=[str(i).zfill(2) for i in list(range(60))],width=2)
 et2.place(relx=0.8,rely=0.65,anchor=tkinter.CENTER)
 #functon for FTP connection
 def ftp_connect(userN,passwd):
