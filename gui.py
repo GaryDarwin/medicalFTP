@@ -16,7 +16,7 @@ except:
 
 
 tk = tkinter.Tk()
-#tk.iconbitmap("myIcon.ico")
+tk.iconbitmap("icon.ico")
 tk.geometry("630x500")
 tk.resizable(False,False)
 tk.title("MEDICAL DATA DOWNLOAD")
