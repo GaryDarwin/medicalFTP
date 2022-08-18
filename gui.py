@@ -17,7 +17,7 @@ except:
 
 tk = tkinter.Tk()
 tk.iconbitmap("icon.ico")
-tk.geometry("630x500")
+tk.geometry("630x510")
 tk.resizable(False,False)
 tk.title("MEDICAL DATA DOWNLOAD")
 tk.configure(bg="#b1c2de")
@@ -28,6 +28,7 @@ e1.place(relx=0.6,rely=0.05,anchor=tkinter.CENTER)
 tkinter.Label(tk, text="Password").place(relx=0.4,rely=0.1,anchor=tkinter.CENTER)
 e2 = tkinter.Entry(tk)
 e2.place(relx=0.6,rely=0.1,anchor=tkinter.CENTER)
+
 tkinter.Frame(tk,bg="lightgrey",width=550,height=270).place(relx=0.5,rely=0.42,anchor=tkinter.CENTER)
 tkinter.Label(tk, text="Start Date",bg="lightgrey").place(relx=0.3,rely=0.18,anchor=tkinter.CENTER)
 cal = tkcalendar.Calendar(master=tk)
@@ -56,8 +57,7 @@ et2.place(relx=0.8,rely=0.65,anchor=tkinter.CENTER)
 #functon for FTP connection
 def ftp_connect(userN,passwd):
     try:
-        #user input for server IP address
-        #ftp_inp = input("Enter the IP address of the FTP Server: \n")
+        #local ip address used for model
         ftp_inp = "127.0.0.1"
         ftp = ftplib.FTP(ftp_inp)
 
@@ -65,30 +65,28 @@ def ftp_connect(userN,passwd):
         ftp.login(user=userN, passwd=passwd)
         return ftp
     except:
-        tkinter.messagebox.showwarning(title="Incorrect Login", message="You have input incorrect login detaiils. Please try again with the correct credentials...")
+        status = "failed"
+        return (status)
+        tkinter.messagebox.showwarning(title="FTP Error", message="An FTP connection could not be established. Either the server is unavailable, or incorrect credentials have been provided.")
     
 def ftp_browse(ftp,selected_start_point,selected_end_point):
-    #print(ftp.getwelcome())
-    #print(ftp.pwd())
-    '''
-    startRange = input("Enter starting date (DD/MM/YYYY): ")
-    startTime = input("Enter starting time (HH:MM): ")
-    endRange = input("Enter ending date (DD/MM/YYYY): ")
-    endTime = input("Enter starting time (HH:MM): ")
-    '''
-    print(selected_start_point)
-    print(selected_end_point)
-    #ADD DATA VALIDATION
+    try:
+        print(selected_start_point)
+        print(selected_end_point)
+        #ADD DATA VALIDATION
 
-    data=[]
-    ftp.dir(data.append)
-    for line in data:
-        temp= line.split("DATA_")[1].split(".")[0]
-        temp = datetime.strptime(temp,"%Y%m%d%H%M%S")
-        if temp>selected_start_point and temp<selected_end_point:
-            ftp_download(ftp,line.split(" ")[-1])
-        else:
-            print("OUT OF RANGE")
+        data=[]
+        ftp.dir(data.append)
+        for line in data:
+            temp= line.split("DATA_")[1].split(".")[0]
+            temp = datetime.strptime(temp,"%Y%m%d%H%M%S")
+            if temp>selected_start_point and temp<selected_end_point:
+                ftp_download(ftp,line.split(" ")[-1])
+            else:
+                print("OUT OF RANGE")
+    except:
+        tkinter.messagebox.showerror(title="FTP Browse Error", message="There was an unexpected problem browsing the FTP server. Please try again later...")
+    
 def ftp_download(ftp,file):
     print(file)
     handle = open(os.path.dirname(__file__)+"/"+file, 'wb')
@@ -111,6 +109,15 @@ def run():
     ftp_browse(ftp,datetime(calg.year, calg.month, calg.day)+timedelta(hours=std.hour,minutes=std.minute),datetime(calg2.year, calg2.month, calg2.day)+timedelta(hours=etd.hour,minutes=etd.minute))
     ftp_quit(ftp)
 
-butt = tkinter.Button(tk,text="DOWNLOAD",bg="#5c8db5",width=40,height=5,command=run).place(relx=0.5,rely=0.8,anchor=tkinter.CENTER)
+def testftp():
+    ftp=ftp_connect(e1.get(),e2.get())
+    if ftp == "failed":
+        tkinter.messagebox.showerror(title="FTP Test", message="The FTP server is either Unavailable or Incorrect Credentials were provided...")
+    else:
+        tkinter.messagebox.showinfo(title="FTP Test", message="Successful FTP Connection Established...")
+    ftp_quit(ftp)
+
+butt = tkinter.Button(tk,text="DOWNLOAD",bg="#5c8db5",width=40,height=4,command=run).place(relx=0.5,rely=0.8,anchor=tkinter.CENTER)
+butt2 = tkinter.Button(tk,text="Test FTP Connection",bg="#bbf99e",width=40,height=2,command=testftp).place(relx=0.5,rely=0.95,anchor=tkinter.CENTER)
 
 tk.mainloop()
