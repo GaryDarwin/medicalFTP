@@ -1,3 +1,7 @@
+from email import message
+from turtle import title
+
+
 try:
     import tkinter
     from tkinter import messagebox
@@ -83,6 +87,8 @@ def ftp_browse(ftp,selected_start_point,selected_end_point):
                 ftp_download(ftp,line.split(" ")[-1])
             else:
                 print("OUT OF RANGE")
+                tkinter.messagebox.showerror(title="Date Selection", message="The selected date is out of range. Try again...")
+
     except:
         tkinter.messagebox.showerror(title="FTP Browse Error", message="There was an unexpected problem browsing the FTP server. Please try again later...")
     
@@ -94,18 +100,24 @@ def ftp_download(ftp,file):
     valid.data_validation(os.path.dirname(__file__)+"/"+file)
     if not headercheck.check_headers(os.path.dirname(__file__)+"/"+file):
         print("Bad headers")
-    #ftp.cwd("/")
+        tkinter.messagebox.showinfo(title="File Header", message="File(s) Downloaded but ... the selected file/ files contain bad headers...")
+        
     
 def ftp_quit(ftp):
     ftp.quit()
+
 def run():
     ftp=ftp_connect(e1.get(),e2.get())
-    print(cal.get_date()+"|"+st1.get()+":"+st2.get())
-    std = datetime.strptime(st1.get()+":"+st2.get(),"%H:%M")
-    etd = datetime.strptime(et1.get()+":"+et2.get(),"%H:%M")
-    calg = cal.selection_get()
-    calg2 = cal2.selection_get()
-    ftp_browse(ftp,datetime(calg.year, calg.month, calg.day)+timedelta(hours=std.hour,minutes=std.minute),datetime(calg2.year, calg2.month, calg2.day)+timedelta(hours=etd.hour,minutes=etd.minute))
+    try:
+        print(cal.get_date()+"|"+st1.get()+":"+st2.get())
+        std = datetime.strptime(st1.get()+":"+st2.get(),"%H:%M")
+        etd = datetime.strptime(et1.get()+":"+et2.get(),"%H:%M")
+        calg = cal.selection_get()
+        calg2 = cal2.selection_get()
+        ftp_browse(ftp,datetime(calg.year, calg.month, calg.day)+timedelta(hours=std.hour,minutes=std.minute),datetime(calg2.year, calg2.month, calg2.day)+timedelta(hours=etd.hour,minutes=etd.minute))
+    except:
+        print ('Error, time and date incorrect format')
+        tkinter.messagebox.showinfo(title="Formatting", message="The provided date/time formatting is invalid...")
     ftp_quit(ftp)
 
 def testftp():
