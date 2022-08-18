@@ -1,3 +1,5 @@
+# contains the general functions which can later be used in the fully fledged implementation
+
 #importing required libraries
 from dataclasses import dataclass
 import ftplib
@@ -40,7 +42,7 @@ def ftp_download(file):
     ftp.cwd("../")
 
     
-
+#to quit the ftp connection
 def ftp_quit(ftp):
     ftp.quit()
 
