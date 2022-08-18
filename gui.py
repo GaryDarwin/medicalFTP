@@ -33,14 +33,14 @@ tkinter.Label(tk, text="Start Date",bg="lightgrey").place(relx=0.3,rely=0.18,anc
 cal = tkcalendar.Calendar(master=tk)
 cal.place(relx=0.3,rely=0.4,anchor=tkinter.CENTER)
 tkinter.Label(tk, text="Start Time",bg="lightgrey").place(relx=0.2,rely=0.65,anchor=tkinter.CENTER)
-st1 = tkinter.Entry(tk,width=3)
+#st1 = tkinter.Entry(tk,width=3)
 #h2 = tkinter.StringVar(tk)
-#h = ttk.Combobox(tk, values=[i.zfill("2") for i in list(range(24))])
+st1 = ttk.Combobox(tk, values=[str(i).zfill(2) for i in list(range(24))],width=2)
 st1.place(relx=0.3,rely=0.65,anchor=tkinter.CENTER)
 tkinter.Label(tk, text=":",bg="lightgrey").place(relx=0.35,rely=0.65,anchor=tkinter.CENTER)
-st2 = tkinter.Entry(tk,width=3)
+#st2 = tkinter.Entry(tk,width=3)
 #m2 = tkinter.StringVar(tk)
-#m = tkinter.OptionMenu(tk, m2, *[i.zfill("2") for i in list(range(60))])
+st2 = ttk.Combobox(tk, values=[str(i).zfill(2) for i in list(range(60))],width=2)
 st2.place(relx=0.4,rely=0.65,anchor=tkinter.CENTER)
 
 
