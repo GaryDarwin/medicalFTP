@@ -1,16 +1,24 @@
-import tkinter
-from tkinter import ttk
-import tkcalendar
-#importing required libraries
-from dataclasses import dataclass
-import ftplib
-from datetime import datetime,timedelta
-import os
-import valid
-import headercheck
+try:
+    import tkinter
+    from tkinter import messagebox
+    from tkinter import ttk
+    import tkcalendar
+    #importing required libraries
+    from dataclasses import dataclass
+    import ftplib
+    from datetime import datetime,timedelta
+    import os
+    import valid
+    import headercheck
+except:
+    print ("Error importing modules. Are all installed?")
+    tkinter.messagebox.showerror(title="Module Error", message="Not all required modules/ dependencies are installed. Please ensure all required dependencies are available...")
+
 
 tk = tkinter.Tk()
+#tk.iconbitmap("myIcon.ico")
 tk.geometry("630x500")
+tk.resizable(False,False)
 tk.title("MEDICAL DATA DOWNLOAD")
 tk.configure(bg="#b1c2de")
 tkinter.Label(tk, text="Username").place(relx=0.4,rely=0.05,anchor=tkinter.CENTER)
