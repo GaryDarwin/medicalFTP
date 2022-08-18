@@ -65,9 +65,7 @@ def ftp_connect(userN,passwd):
         ftp.login(user=userN, passwd=passwd)
         return ftp
     except:
-        status = "failed"
-        return (status)
-        tkinter.messagebox.showwarning(title="FTP Error", message="An FTP connection could not be established. Either the server is unavailable, or incorrect credentials have been provided.")
+        tkinter.messagebox.showerror(title="FTP Test", message="The FTP server is either Unavailable or Incorrect Credentials were provided...")
     
 def ftp_browse(ftp,selected_start_point,selected_end_point):
     try:
@@ -111,8 +109,7 @@ def run():
 
 def testftp():
     ftp=ftp_connect(e1.get(),e2.get())
-    if ftp == "failed":
-        tkinter.messagebox.showerror(title="FTP Test", message="The FTP server is either Unavailable or Incorrect Credentials were provided...")
+    if ftp == 'null' :
     else:
         tkinter.messagebox.showinfo(title="FTP Test", message="Successful FTP Connection Established...")
     ftp_quit(ftp)
