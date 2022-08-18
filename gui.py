@@ -1,7 +1,3 @@
-from email import message
-from turtle import title
-
-
 try:
     import tkinter
     from tkinter import messagebox
@@ -23,7 +19,7 @@ tk = tkinter.Tk()
 tk.iconbitmap("icon.ico")
 tk.geometry("630x510")
 tk.resizable(False,False)
-tk.title("MEDICAL DATA DOWNLOAD")
+tk.title("Medi-FTP Client")
 tk.configure(bg="#b1c2de")
 tkinter.Label(tk, text="Username").place(relx=0.4,rely=0.05,anchor=tkinter.CENTER)
 e1 = tkinter.Entry(tk)
@@ -76,7 +72,6 @@ def ftp_browse(ftp,selected_start_point,selected_end_point):
     try:
         print(selected_start_point)
         print(selected_end_point)
-        #ADD DATA VALIDATION
 
         data=[]
         ftp.dir(data.append)
