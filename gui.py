@@ -1,14 +1,20 @@
-import tkinter
-import tkcalendar
-#importing required libraries
-from dataclasses import dataclass
-import ftplib
-from datetime import datetime
-import os
-import valid
-import headercheck
+try:
+    import tkinter
+    from tkinter import messagebox
+    import tkcalendar
+    #importing required libraries
+    from dataclasses import dataclass
+    import ftplib
+    from datetime import datetime
+    import os
+    import valid
+    import headercheck
+except:
+    print ("Error importing modules. Are all installed?")
+    tkinter.messagebox.showerror(title="Module Error", message="Not all required modules/ dependencies are installed. Please ensure all required dependencies are available...")
 
 tk = tkinter.Tk()
+#tk.iconbitmap("myIcon.ico")
 tk.geometry("630x500")
 tk.title("MEDICAL DATA DOWNLOAD")
 tk.configure(bg="#b1c2de")
@@ -40,16 +46,21 @@ et1.place(relx=0.7,rely=0.65,anchor=tkinter.CENTER)
 tkinter.Label(tk, text=":",bg="lightgrey").place(relx=0.75,rely=0.65,anchor=tkinter.CENTER)
 et2 = tkinter.Entry(tk,width=3)
 et2.place(relx=0.8,rely=0.65,anchor=tkinter.CENTER)
+
 #functon for FTP connection
 def ftp_connect(userN,passwd):
-    #user input for server IP address
-    #ftp_inp = input("Enter the IP address of the FTP Server: \n")
-    ftp_inp = "127.0.0.1"
-    ftp = ftplib.FTP(ftp_inp)
+    try:
+        #user input for server IP address
+        #ftp_inp = input("Enter the IP address of the FTP Server: \n")
+        ftp_inp = "127.0.0.1"
+        ftp = ftplib.FTP(ftp_inp)
 
-    #login to FTP server
-    ftp.login(user=userN, passwd=passwd)
-    return ftp
+        #login to FTP server
+        ftp.login(user=userN, passwd=passwd)
+        return ftp
+    except:
+        tkinter.messagebox.showwarning(title="Incorrect Login", message="You have input incorrect login detaiils. Please try again with the correct credentials...")
+    
 def ftp_browse(ftp,start_point,end_point):
     #print(ftp.getwelcome())
     #print(ftp.pwd())
@@ -59,8 +70,8 @@ def ftp_browse(ftp,start_point,end_point):
     endRange = input("Enter ending date (DD/MM/YYYY): ")
     endTime = input("Enter starting time (HH:MM): ")
     '''
-    selected_start_point = datetime.strptime(start_point, "%m/%d/%y|%H:%M")
-    selected_end_point = datetime.strptime(end_point, "%m/%d/%y|%H:%M")
+    selected_start_point = datetime.strptime(start_point, "%d/%m/%Y|%H:%M")
+    selected_end_point = datetime.strptime(end_point, "%d/%m/%Y|%H:%M")
     print(selected_start_point)
     print(selected_end_point)
     #ADD DATA VALIDATION
@@ -86,7 +97,9 @@ def ftp_download(ftp,file):
     
 def ftp_quit(ftp):
     ftp.quit()
+
 def run():
+    #e1 = username, e2 = password : passes onto connect funtion
     ftp=ftp_connect(e1.get(),e2.get())
     print(cal.get_date()+"|"+st1.get()+":"+st2.get())
     ftp_browse(ftp,cal.get_date()+"|"+st1.get()+":"+st2.get(),cal2.get_date()+"|"+et1.get()+":"+et2.get())
