@@ -1,24 +1,19 @@
 
 import numpy as np
 import csv
-
-# Putting data in csv file into a matrix - will make validation easier
-with open("some_file.csv", "r") as file:
-    csv_data = list(csv.reader(file))
-    csv_matrix = np.array([np.array(row) for row in csv_data])
-
 bad_data = {} #dictionary containing all issues of the file
 
 #Check for empty values; if true, then find position of None values and record them
-def empty_values_check():
+def empty_values_check(csv_matrix):
     if any(None in data for data in csv_matrix):
         missing_values = np.where(csv_matrix is None).tolist()
         bad_data['Missing Values'] = missing_values
-    return print(f"Missing values:\n", missing_values)
+        return print(f"Missing values:\n", missing_values)
+    print("No missing values")
 
 #Checking batch ids are all unique; if not, find position and record them
 
-def batch_id_check():
+def batch_id_check(csv_matrix):
     batch_ids = csv_matrix[1:, 0]
     repeat_ids = []
     if len(set(batch_ids)) != len(batch_ids):
@@ -30,8 +25,8 @@ def batch_id_check():
     return print(f"Repeat batch IDs:\n", repeat_ids)
 
 #Check data is in range 0.000 - 9.900; if not, note value and location
-def check_range():
-    for i in range(len(batch_ids)):
+def check_range(csv_matrix):
+    for i in range(len(csv_matrix[1:, 0])):
         data_readings = csv_matrix[1:, -10:]
         out_of_range = []
         too_many_decimal = []
@@ -45,10 +40,13 @@ def check_range():
             bad_data['Out of range'] = out_of_range
         if too_many_decimal != []:
             bad_data['Decimal Place Errors'] = too_many_decimal
-    return print(f"Out of range:\n", out_of_range, f"\nDecimal Place Errors:\n", too_many_decimal)
+        return print(f"Out of range:\n", out_of_range, f"\nDecimal Place Errors:\n", too_many_decimal)
 
-def data_validation():
-    empty_values_check()
-    batch_id_check()
-    check_range()
+def data_validation(fileName):
+    file = open(fileName, 'r')
+    csv_data = list(csv.reader(file))
+    csv_matrix = np.array([np.array(row) for row in csv_data])
+    empty_values_check(csv_matrix)
+    batch_id_check(csv_matrix)
+    check_range(csv_matrix)
     return print(bad_data)

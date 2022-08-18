@@ -37,7 +37,7 @@ def ftp_browse(ftp):
 def ftp_download(file):
     handle = open(file, 'wb')
     ftp.retrbinary('RETR %s' % file, handle.write)
-    ftp.cwd("/")
+    ftp.cwd("../")
 
     
 
