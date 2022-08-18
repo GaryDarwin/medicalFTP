@@ -1,9 +1,10 @@
 import tkinter
+from tkinter import ttk
 import tkcalendar
 #importing required libraries
 from dataclasses import dataclass
 import ftplib
-from datetime import datetime
+from datetime import datetime,timedelta
 import os
 import valid
 import headercheck
@@ -25,9 +26,13 @@ cal = tkcalendar.Calendar(master=tk)
 cal.place(relx=0.3,rely=0.4,anchor=tkinter.CENTER)
 tkinter.Label(tk, text="Start Time",bg="lightgrey").place(relx=0.2,rely=0.65,anchor=tkinter.CENTER)
 st1 = tkinter.Entry(tk,width=3)
+#h2 = tkinter.StringVar(tk)
+#h = ttk.Combobox(tk, values=[i.zfill("2") for i in list(range(24))])
 st1.place(relx=0.3,rely=0.65,anchor=tkinter.CENTER)
 tkinter.Label(tk, text=":",bg="lightgrey").place(relx=0.35,rely=0.65,anchor=tkinter.CENTER)
 st2 = tkinter.Entry(tk,width=3)
+#m2 = tkinter.StringVar(tk)
+#m = tkinter.OptionMenu(tk, m2, *[i.zfill("2") for i in list(range(60))])
 st2.place(relx=0.4,rely=0.65,anchor=tkinter.CENTER)
 
 
@@ -50,7 +55,7 @@ def ftp_connect(userN,passwd):
     #login to FTP server
     ftp.login(user=userN, passwd=passwd)
     return ftp
-def ftp_browse(ftp,start_point,end_point):
+def ftp_browse(ftp,selected_start_point,selected_end_point):
     #print(ftp.getwelcome())
     #print(ftp.pwd())
     '''
@@ -59,8 +64,6 @@ def ftp_browse(ftp,start_point,end_point):
     endRange = input("Enter ending date (DD/MM/YYYY): ")
     endTime = input("Enter starting time (HH:MM): ")
     '''
-    selected_start_point = datetime.strptime(start_point, "%m/%d/%y|%H:%M")
-    selected_end_point = datetime.strptime(end_point, "%m/%d/%y|%H:%M")
     print(selected_start_point)
     print(selected_end_point)
     #ADD DATA VALIDATION
@@ -89,7 +92,11 @@ def ftp_quit(ftp):
 def run():
     ftp=ftp_connect(e1.get(),e2.get())
     print(cal.get_date()+"|"+st1.get()+":"+st2.get())
-    ftp_browse(ftp,cal.get_date()+"|"+st1.get()+":"+st2.get(),cal2.get_date()+"|"+et1.get()+":"+et2.get())
+    std = datetime.strptime(st1.get()+":"+st2.get(),"%H:%M")
+    etd = datetime.strptime(et1.get()+":"+et2.get(),"%H:%M")
+    calg = cal.selection_get()
+    calg2 = cal2.selection_get()
+    ftp_browse(ftp,datetime(calg.year, calg.month, calg.day)+timedelta(hours=std.hour,minutes=std.minute),datetime(calg2.year, calg2.month, calg2.day)+timedelta(hours=etd.hour,minutes=etd.minute))
     ftp_quit(ftp)
 
 butt = tkinter.Button(tk,text="DOWNLOAD",bg="#5c8db5",width=40,height=5,command=run).place(relx=0.5,rely=0.8,anchor=tkinter.CENTER)
