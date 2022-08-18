@@ -64,9 +64,9 @@ def ftp_quit(ftp):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-g','--get', type=str, nargs=2, metavar=('Date', 'Time'), required=False)
-    parser.add_argument('-f','--files', type=str, nargs=4, metavar=('Start date' ,'Start time' ,'End date' ,'End time'), required=False)
-    parser.add_argument('-d','--download', type=str, nargs=4, metavar=('Start date' ,'Start time' ,'End date' ,'End time'), required=False)
+    parser.add_argument('-g','--get', type=str, nargs=2, metavar=('Date', 'Time'), required=False, help="Download specific file")
+    parser.add_argument('-f','--files', type=str, nargs=4, metavar=('Start date' ,'Start time' ,'End date' ,'End time'), required=False, help="Get file names in datetime range")
+    parser.add_argument('-d','--download', type=str, nargs=4, metavar=('Start date' ,'Start time' ,'End date' ,'End time'), required=False, help="Download files in datetime range")
 
     args = parser.parse_args()
     
